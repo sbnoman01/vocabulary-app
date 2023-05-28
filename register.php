@@ -1,4 +1,6 @@
-<?php require_once 'partials/header.php' ?>
+<?php
+
+require_once 'partials/header.php' ?>
 
 <div class="login-page">
     <h1>Register Account</h1>
@@ -8,6 +10,7 @@
       <input name="user_email" type="text" placeholder="email address"/>
       <input name="user_pass" type="password" placeholder="password"/>
       <input name="action" value="register" type="hidden"/>
+      <p><?php echo getResponseMessage($_get_resCode); ?></p>
       <button>create</button>
       <p class="message">Already registered? <a href="login.php">Sign In</a></p>
     </form>
