@@ -1,5 +1,5 @@
 <?php
-
+$_get_resCode = $_GET['rescode'] ?? 0;
 require_once 'partials/header.php' ?>
 
 <div class="login-page">

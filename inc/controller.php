@@ -19,8 +19,9 @@ if( ! $conn ){
            if(mysqli_error( $conn )){
                 $respCode = 1;
            }else{
-            header("Location: ../register.php?rescode={$respCode}");
+                $respCode = 3;
            }
+           header("Location: ../register.php?rescode={$respCode}");
         }
     }elseif( 'login' == $action ){
         

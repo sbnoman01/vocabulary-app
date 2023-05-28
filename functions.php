@@ -9,6 +9,7 @@ function getResponseMessage($code){
         '4' => 'Login success!',
         '5' => 'Password didn\'t match',
         '6' => 'Username didn\'t match',
+        '7' => 'Please login First',
     ];
     return $response[$code];
 }
