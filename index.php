@@ -1,5 +1,7 @@
-<?php require_once 'partials/header.php';
-    
+<?php 
+require_once 'partials/header.php';
+require_once 'functions.php';
+
 $user_id = $_SESSION['id'] ?? 0;
 if( empty($user_id) || $user_id == 0 ){
   header("Location: login.php?rescode=7");
@@ -41,6 +43,7 @@ if( empty($user_id) || $user_id == 0 ){
             <div class="table-wrapper bg-white mt-5 p-5 rounded">
                 <div class="filter-wrapper">
                     <div class="row justify-content-between">
+                    <p><?php echo getResponseMessage($_GET['rescode']??0); ?></p>
                         <div class="col-lg-4">
                             <div class="alphabets">
                                 <select class="form-select" id="ageRangeField" aria-label="Default select example">
@@ -58,10 +61,9 @@ if( empty($user_id) || $user_id == 0 ){
                             </form>
                         </div>
                     </div>
-
-
                 </div>
-                <table class="table">
+                
+                <table class="table mt-4">
                     <thead>
                         <tr>
                             <th scope="col">#</th>
@@ -70,11 +72,14 @@ if( empty($user_id) || $user_id == 0 ){
                         </tr>
                     </thead>
                     <tbody>
-                        <?php for( $i = 1; $i < 10; $i++){ ?>
+                        <?php 
+                        $count_list = 0;
+                        $data = getWordList($user_id);
+                        foreach( $data as $word){ $count_list++?>
                         <tr>
-                            <th scope="row"><?php echo $i ?></th>
-                            <td>Mark</td>
-                            <td>Otto</td>
+                            <th scope="row"><?php echo $count_list ?></th>
+                            <td><?= $word['word'] ?></td>
+                            <td><?= $word['meaning'] ?></td>
                         </tr>
                         <?php } ?>
 
@@ -93,21 +98,23 @@ if( empty($user_id) || $user_id == 0 ){
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <form>
+        <form action="inc/controller.php" method="POST">
           <div class="mb-3">
             <label for="recipient-name" class="col-form-label">Word:</label>
-            <input type="text" class="form-control" id="recipient-name">
+            <input type="text" class="form-control" id="recipient-name" name="_word">
           </div>
           <div class="mb-3">
             <label for="message-text" class="col-form-label">Full Form:</label>
-            <textarea class="form-control" id="message-text"></textarea>
+            <textarea class="form-control" id="message-text" name="_meaning"></textarea>
           </div>
+          <input type="hidden" name="action" value="addword">
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <input type="submit" class="btn btn-primary" value="Add Word">
+            </div>
         </form>
       </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Add Now</button>
-      </div>
+      
     </div>
   </div>
 </div>

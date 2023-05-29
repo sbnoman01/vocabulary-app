@@ -1,7 +1,9 @@
-<?php require_once 'config.php'; 
+<?php 
 session_start();
+require_once 'db.php'; 
+global $conn;
+
 $action = $_POST['action'] ?? null;
-$conn = mysqli_connect( DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
 
 if( ! $conn ){
     echo 'error';
@@ -47,6 +49,20 @@ if( ! $conn ){
                 $respCode = 6;
             }
             header("Location: ../login.php?rescode={$respCode}");
+        }
+    }elseif( 'addword' == $action ){
+        $_word = $_POST['_word'];
+        $_meaning = $_POST['_meaning'];
+        $_user_ID = $_SESSION['id'] ?? 0;
+        if( $_word && $_meaning && $_user_ID != 0 ){
+            $insert_word = "INSERT INTO words(user_id, word, meaning) VALUES('{$_user_ID}', '{$_word}', '{$_meaning}')";
+
+            $res = mysqli_query($conn, $insert_word);
+            if( !$res ):
+                header("Location: ../index.php?rescode=inserterror");
+            else:
+                header("Location: ../index.php?rescode=insertsucc");
+            endif;
         }
     }
 }
