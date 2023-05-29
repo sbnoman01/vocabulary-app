@@ -18,10 +18,14 @@ function getResponseMessage($code){
     return $response[$code];
 }
 
-function getWordList( $user_id = null){
+function getWordList( $user_id, $searchString = null){
     global $conn;
     // result
-    $select_word_query = "SELECT * FROM words WHERE user_id = $user_id";
+    if( $searchString != null ){
+        $select_word_query = "SELECT * FROM words WHERE user_id = $user_id AND word LIKE '{$searchString}%'";
+    }else{
+        $select_word_query = "SELECT * FROM words WHERE user_id = $user_id";
+    }
     $res = mysqli_query($conn, $select_word_query);
     $data = [];
     

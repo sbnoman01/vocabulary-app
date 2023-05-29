@@ -13,7 +13,6 @@ if( empty($user_id) || $user_id == 0 ){
         <div class="col-lg-12">
             <nav class="navbar navbar-expand-lg bg-body-tertiary">
                 <div class="container-fluid">
-                    <a class="navbar-brand" href="#">Navbar</a>
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                         data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
@@ -46,7 +45,7 @@ if( empty($user_id) || $user_id == 0 ){
                     <p><?php echo getResponseMessage($_GET['rescode']??0); ?></p>
                         <div class="col-lg-4">
                             <div class="alphabets">
-                                <select class="form-select" id="ageRangeField" aria-label="Default select example">
+                                <select class="form-select" id="charFilter" aria-label="Default select example">
                                     <option value="all">All Words</option>
                                     <option value="A">A#</option>
                                     <option value="B">B#</option>
@@ -56,14 +55,14 @@ if( empty($user_id) || $user_id == 0 ){
                         </div>
                         <div class="col-lg-4">
                               <form class="d-flex" role="search">
-                              <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                              <input class="form-control me-2" type="search" name="searchString" placeholder="Search" aria-label="Search" value="<?= $_GET['searchString']??''  ?>">
                               <button class="btn btn-outline-success" type="submit">Search</button>
                             </form>
                         </div>
                     </div>
                 </div>
                 
-                <table class="table mt-4">
+                <table id="wordsTable" class="table mt-4">
                     <thead>
                         <tr>
                             <th scope="col">#</th>
@@ -74,7 +73,8 @@ if( empty($user_id) || $user_id == 0 ){
                     <tbody>
                         <?php 
                         $count_list = 0;
-                        $data = getWordList($user_id);
+                        $searchString = $_GET['searchString']??null;
+                        $data = getWordList($user_id, $searchString);
                         foreach( $data as $word){ $count_list++?>
                         <tr>
                             <th scope="row"><?php echo $count_list ?></th>
